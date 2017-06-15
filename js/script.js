@@ -3,6 +3,7 @@ var infowindow;
 var place_id = [];
 var markers = [];
 var infoWindow;
+var win = $(window);
 
 function loadScript() {
     // Loading Google Maps API after the html document is ready
@@ -13,11 +14,15 @@ function loadScript() {
 }
 
 window.onload = loadScript;
-
+$(document).ready(function(){
+	if(win.width() < 767) {
+		$('#search-bar').addClass('collapse');
+	}
+});
 
 $(window).on('resize', function() {
     /*If browser resized, check width again */
-    if ($(window).width() < 767) {
+    if (win.width() < 767) {
         $('#search-bar').addClass('collapse');
     } else {
         $('#search-bar').removeClass('collapse');
