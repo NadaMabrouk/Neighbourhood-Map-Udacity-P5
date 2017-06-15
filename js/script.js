@@ -123,12 +123,12 @@ function viewModel(initialPlaces) {
         var contentString = "<h3>" + title + "</h3><div id='pano'></div><p>" + (phone !== undefined ? phone : '') + "</p><p>" + address +
             "</p><p>Number of People Checkedin: " + checkins + "</p><p>" + (website !== undefined ? 'Website: ' + website : '') + "</p>";
         attachInfoWindow(marker, contentString);
-    };
+    }
 
     map.fitBounds(bounds);
     this.showInfo = function(clickedItem) {
         google.maps.event.trigger(clickedItem.marker, 'click');
-    }
+    };
 
     //Take the search value from the input field and filter against the array i have
     self.filteredPlaces = ko.computed(function() {
