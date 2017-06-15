@@ -31,44 +31,50 @@ $(window).on('resize', function() {
 
 
 function initMap() {
-
+	var searchSpace = {
+	            lat: -300,
+	            lng: -300
+	        };
     //Geolocation Navigator is used to get the user's location 
-    navigator.geolocation.getCurrentPosition(function(location) {
-        var searchSpace = {
-            lat: -300,
-            lng: -300
-        };
-        // Updating the Latitude and Longtiude of the search space to the user's location
-        searchSpace.lat = location.coords.latitude;
-        searchSpace.lng = location.coords.longitude;
-        //Handling of getting the user Location, if it's not updated in the variable properly .. A message displayed to the user that the Application 
-        //can't get his/her position
-        if (searchSpace.lat == -300 && searchSpace.lng == -300) {
-            alert('Application can\'t get your location properly So, we will display to you results around Zurich, Triemli !');
-            searchSpace.lat = '47.3660';
-            searchSpace.lng = '8.4980';
-        } else {
-            //Load Google Maps and create an InfoWindow
-            infoWindow = new google.maps.InfoWindow();
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: searchSpace,
-                zoom: 15
-            });
-            infowindow = new google.maps.InfoWindow();
+    if(navigator.geolocation)
+    {	
+	    navigator.geolocation.getCurrentPosition(function(location) {
+	        // Updating the Latitude and Longtiude of the search space to the user's location
+	        searchSpace.lat = location.coords.latitude;
+	        searchSpace.lng = location.coords.longitude;
+	        //Handling of getting the user Location, if it's not updated in the variable properly .. A message displayed to the user that the Application 
+	        //can't get his/her position
+	        if (searchSpace.lat == -300 && searchSpace.lng == -300) {
+	            alert('Application can\'t get your location properly So, we will display to you results around Zurich, Triemli !');
+	            searchSpace.lat = '47.3660';
+	            searchSpace.lng = '8.4980';
+	        } else {
+	            //Load Google Maps and create an InfoWindow
+	            infoWindow = new google.maps.InfoWindow();
+	            map = new google.maps.Map(document.getElementById('map'), {
+	                center: searchSpace,
+	                zoom: 15
+	            });
+	            infowindow = new google.maps.InfoWindow();
 
-            //Using Foursquare API to get all the surrounding restaurants and cafes within radius 1000 and then call our viewModel
-            var url = 'https://api.foursquare.com/v2/venues/search?v=20170614&client_id=1M2HOETDWRORSG2GSH20QPEEF0JT4YCG3C0C1AKYIUO1KNVH&' +
-                'client_secret=J2X14IQDBRAQMS5FVY5KQPNE1XWT2ZL5L0JFE5AFZSMCMNY2&radius=2000&ll=' + searchSpace.lat + ',' +
-                searchSpace.lng + '&query=restaurant|cafe&limit=20';
-            $.getJSON(url)
-                .done(function(data) {
-                    ko.applyBindings(new viewModel(data.response.venues));
-                })
-                .fail(function(status) {
-                    console.log('Foursquare Request Failed ' + status)
-                });
-        }
-    });
+	            //Using Foursquare API to get all the surrounding restaurants and cafes within radius 1000 and then call our viewModel
+	            var url = 'https://api.foursquare.com/v2/venues/search?v=20170614&client_id=1M2HOETDWRORSG2GSH20QPEEF0JT4YCG3C0C1AKYIUO1KNVH&' +
+	                'client_secret=J2X14IQDBRAQMS5FVY5KQPNE1XWT2ZL5L0JFE5AFZSMCMNY2&radius=2000&ll=' + searchSpace.lat + ',' +
+	                searchSpace.lng + '&query=restaurant|cafe&limit=20';
+	            $.getJSON(url)
+	                .done(function(data) {
+	                    ko.applyBindings(new viewModel(data.response.venues));
+	                })
+	                .fail(function(status) {
+	                    console.log('Foursquare Request Failed ' + status);
+	                });
+	        }
+	    });
+	}else {
+		document.body.appendChild("<h2> This browser doesn't Support Geolocation");
+		searchSpace.lat = '47.3660';
+	    searchSpace.lng = '8.4980';
+	}
 }
 
 function viewModel(initialPlaces) {
@@ -114,10 +120,10 @@ function viewModel(initialPlaces) {
         markers.push(marker);
         this.places()[i].marker = marker;
 
-        var contentString = "<h3>" + title + "</h3><div id='pano'></div><p>" + (phone != undefined ? phone : '') + "</p><p>" + address +
-            "</p><p>Number of People Checkedin: " + checkins + "</p><p>" + (website != undefined ? 'Website: ' + website : '') + "</p>";
+        var contentString = "<h3>" + title + "</h3><div id='pano'></div><p>" + (phone !== undefined ? phone : '') + "</p><p>" + address +
+            "</p><p>Number of People Checkedin: " + checkins + "</p><p>" + (website !== undefined ? 'Website: ' + website : '') + "</p>";
         attachInfoWindow(marker, contentString);
-    }
+    };
 
     map.fitBounds(bounds);
     this.showInfo = function(clickedItem) {
