@@ -4,10 +4,12 @@
 <head>
 	<title>Neighbourhood-Map</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container-fluid">
+		<div id="err-div">
+		</div>
 		<div class="row">
 			<button type="button" class="col-xs-offset-5 btn btn-info" data-toggle="collapse" data-target="#search-bar">Filter</button>
 			<div class="col-xs-10 col-sm-4 col-md-3 search" id="search-bar">
@@ -19,7 +21,7 @@
 						</div>
 					</div>
 					<div class="col-md-12 nopad">
-						<div class="list-group">
+						<div class="list-group" id="list">
 							<ul data-bind="foreach: filteredPlaces">
 								<li class="list-group-item" data-bind="text: name,click: $root.showInfo"></li>
 							</ul>
@@ -35,7 +37,8 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type='text/javascript' src='js/knockout-3.4.2.js' ></script>
-<script type="text/javascript" src="js/script.js"></script>
+<script src='js/knockout-3.4.2.js' ></script>
+<script src="js/script.js"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4s17-YXp1A1WnXfiKLz34YtfH4R710hc&callback=initMap" onerror="googleError()"></script>
 </body>
 </html>

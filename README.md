@@ -1,5 +1,10 @@
 # Neighbourhood-Map Project 
 
+### Steps to run the project
+If your're running from a mobile device or a tablet, you need to turn on your GPS/Location detector.
+Then you can press on Filter button and  a dropdown list will appear showing the nearby restaurants/cafes you click on any and click Filter button again, and you will see more details about the selected place.
+Here's a live demo for the project:
+
 [Link to a Live demo](https://nadamabrouk.github.io/Neighbourhood-Map-Udacity-P5/)
 You don't need to install anything before running the project.
 
